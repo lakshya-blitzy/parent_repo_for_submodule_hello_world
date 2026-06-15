@@ -9,7 +9,7 @@
  *
  * Run with: `node server.js`
  *
- * Source: server.js:L1-L14
+ * Source: server.js:L1-L62
  */
 const http = require('http');
 
@@ -18,7 +18,7 @@ const http = require('http');
  * reachable solely from the local machine and is not exposed on the network.
  *
  * @constant {string}
- * Source: server.js:L3
+ * Source: server.js:L23
  */
 const hostname = '127.0.0.1';
 /**
@@ -27,7 +27,7 @@ const hostname = '127.0.0.1';
  * servers cannot run simultaneously without a port conflict (EADDRINUSE).
  *
  * @constant {number}
- * Source: server.js:L4
+ * Source: server.js:L32
  */
 const port = 3000;
 
@@ -41,7 +41,7 @@ const port = 3000;
  * @param {http.IncomingMessage} req - The inbound request object (not inspected).
  * @param {http.ServerResponse} res - The outbound response used to send the reply.
  * @returns {void} Nothing is returned; the response is written via `res.end()`.
- * Source: server.js:L6-L10
+ * Source: server.js:L46-L50
  */
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
@@ -55,7 +55,7 @@ const server = http.createServer((req, res) => {
  * `Server running at http://127.0.0.1:3000/`.
  *
  * @returns {void}
- * Source: server.js:L12-L14
+ * Source: server.js:L60-L62
  */
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

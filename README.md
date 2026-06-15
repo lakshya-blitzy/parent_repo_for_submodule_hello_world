@@ -157,9 +157,9 @@ This repository tracks exactly one Git submodule, declared in `.gitmodules`. The
 |---|---|---|
 | Name / path | `child_repo_for_submodule_hello_world` | .gitmodules |
 | Upstream URL | `https://github.com/lakshya-blitzy/child_repo_for_submodule_hello_world.git` | .gitmodules |
-| Originally-specified pin commit | `a7b8fe55c19504b8912fe655fb390a673dbe02ae` | .gitmodules |
+| Pinned commit (superproject gitlink) | `68356c747d9ede21357407033135f74f1d02ab99` | git submodule status / git ls-tree HEAD |
 
-The superproject records the submodule at a specific commit (the originally-specified pin `a7b8fe55c19504b8912fe655fb390a673dbe02ae`), which guarantees a **reproducible** submodule checkout: every clone materializes the exact same submodule contents. Source: .gitmodules.
+The superproject records the submodule at a specific commit via its **gitlink** — currently `68356c747d9ede21357407033135f74f1d02ab99` — which guarantees a **reproducible** submodule checkout: every clone materializes the exact same submodule contents. This commit is **not** stored in `.gitmodules` (which holds only the submodule path and URL); it is recorded by the superproject gitlink and reported by `git submodule status`. Source: git submodule status / git ls-tree HEAD child_repo_for_submodule_hello_world.
 
 Verify which commit is currently checked out for the submodule with:
 
@@ -167,7 +167,7 @@ Verify which commit is currently checked out for the submodule with:
 git submodule status
 ```
 
-This prints the currently materialized commit SHA next to the submodule path; confirm it matches the commit recorded by the superproject. Source: .gitmodules.
+This prints the commit SHA the superproject pins for the submodule (its gitlink) next to the submodule path; it should match the **Pinned commit** listed above. Source: git submodule status / git ls-tree HEAD child_repo_for_submodule_hello_world.
 
 ## Diagrams
 
@@ -204,7 +204,7 @@ sequenceDiagram
 
 ### Submodule Materialization Flow
 
-Cloning materializes the submodule from its upstream URL at the recorded commit; `git submodule status` verifies the result. Source: .gitmodules.
+Cloning materializes the submodule from its upstream URL (declared in `.gitmodules`) at the commit recorded by the superproject gitlink; `git submodule status` verifies the result. Source: .gitmodules (upstream URL); git submodule status / git ls-tree HEAD child_repo_for_submodule_hello_world (recorded commit).
 
 ```mermaid
 graph TD
@@ -218,4 +218,5 @@ graph TD
 ## Source Citations
 
 - `server.js:L1-L14` — the complete HTTP server implementation: the `http` import (L1), the `hostname`/`port` constants (L3-L4), the catch-all request handler (L6-L10), and the `server.listen` call with its startup log (L12-L14).
-- `.gitmodules` — submodule binding metadata: name/path, upstream URL, and the originally-specified pin commit `a7b8fe55c19504b8912fe655fb390a673dbe02ae` for the `child_repo_for_submodule_hello_world` submodule.
+- `.gitmodules` — submodule binding metadata: the submodule **name/path** and upstream **URL** only; it does **not** record the pinned commit.
+- Superproject **gitlink** (via `git submodule status` / `git ls-tree HEAD child_repo_for_submodule_hello_world`) — the **pinned commit** `68356c747d9ede21357407033135f74f1d02ab99` that the superproject records for the `child_repo_for_submodule_hello_world` submodule.
